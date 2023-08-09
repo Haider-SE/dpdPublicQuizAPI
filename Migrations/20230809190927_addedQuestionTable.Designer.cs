@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dpdPublicQuizAPI.Data.ContextConfiguration;
 
@@ -11,9 +12,11 @@ using dpdPublicQuizAPI.Data.ContextConfiguration;
 namespace dpdPublicQuizAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230809190927_addedQuestionTable")]
+    partial class addedQuestionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +43,8 @@ namespace dpdPublicQuizAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("QuestionTypeID");
+
                     b.ToTable("Questions");
                 });
 
@@ -56,6 +61,17 @@ namespace dpdPublicQuizAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionType");
+                });
+
+            modelBuilder.Entity("dpdPublicQuizAPI.Models.Questions", b =>
+                {
+                    b.HasOne("dpdPublicQuizAPI.Models.QuestionsType", "QuestionType")
+                        .WithMany()
+                        .HasForeignKey("QuestionTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuestionType");
                 });
 #pragma warning restore 612, 618
         }

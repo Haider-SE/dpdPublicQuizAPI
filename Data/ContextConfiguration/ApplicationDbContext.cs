@@ -8,5 +8,6 @@ namespace dpdPublicQuizAPI.Data.ContextConfiguration
         {
         }
         public DbSet<QuestionsType> QuestionType { get; set; }
+        public DbSet<Questions> Questions { get; set; }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using dpdPublicQuizAPI.Data.ContextConfiguration;
+﻿using dpdPublicQuizAPI.Data.ContextConfiguration;
 using dpdPublicQuizAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 namespace dpdPublicQuizAPI.Controllers
 {
     [ApiController]
-    [Route("questionType")]
+    [Route("add/questionType")]
     public class QuestionsTypeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,35 +19,21 @@ namespace dpdPublicQuizAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddQuestionType(QuestionTypeRequest request)
+        public async Task<IActionResult> AddQuestionType(QuestionsType request)
         {
             // Find the user with the provided username
-            var type = await _context.QuestionType.FirstOrDefaultAsync(q => q.Type == request.Type);
+            var typeAlreadyExist = await _context.QuestionType.FirstOrDefaultAsync(q => q.Type == request.Type);
 
-            if (type == null)
+            if (typeAlreadyExist != null)
             {
-                return BadRequest("Invalid Type");
+                return BadRequest("It Already Exist");
             }
 
-            var response = new QuestionTypeResponse
-            {
-                Id = type.Id,
-                Type = type.Type,
-            };
-            _context.Add(response);
+            _context.Add(request);
             await _context.SaveChangesAsync();
-            return Ok("Tech skill added successfully.");
+            return Ok("Question Type added successfully.");
 
         }
 
-        public class QuestionTypeRequest
-        {
-            public string Type { get; set; }
-        }
-        public class QuestionTypeResponse
-        {
-            public Guid Id { get; set; }
-            public string Type { get; set; }
-        }
     }
 }
