@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 namespace dpdPublicQuizAPI.Controllers
 {
     [ApiController]
-    [Route("add/questionType")]
     public class QuestionsTypeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +18,7 @@ namespace dpdPublicQuizAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add/questionType")]
         public async Task<IActionResult> AddQuestionType(QuestionsType request)
         {
             // Find the user with the provided username
@@ -33,6 +33,13 @@ namespace dpdPublicQuizAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok("Question Type added successfully.");
 
+        }
+        [HttpGet]
+        [Route("all-question-types")]
+        public async Task<IActionResult> GetAllQuestionTypes()
+        {
+            var questionTypes = await _context.QuestionType.ToListAsync();
+            return Ok(questionTypes);
         }
 
     }
