@@ -41,6 +41,43 @@ namespace dpdPublicQuizAPI.Controllers
             var questionTypes = await _context.QuestionType.ToListAsync();
             return Ok(questionTypes);
         }
+        [HttpGet]
+        [Route("getQuestionType/{questionId}")]
+        public async Task<IActionResult> GetQuestionTypeDetail (Guid questionId)
+        {
+            var getQuestionDetail = await _context.QuestionType.FindAsync(questionId);
+            if (getQuestionDetail == null)
+            {
+                return NotFound(); // Return a 404 response if the question is not found
+            }
+            return Ok(getQuestionDetail);
+            Console.Read();
+        }
+
+        [HttpPut]
+        [Route("updateQuestionType/{questionId}")]
+        public async Task<IActionResult> UpdateQuestionTypeDetail (QuestionsType updatedQuestionType)
+        {
+            var questionId = updatedQuestionType.Id;
+            var existingQuestionType = await _context.QuestionType.FindAsync(questionId);
+            if(existingQuestionType == null)
+            {
+                return NotFound();
+            }
+
+            existingQuestionType.Type = updatedQuestionType.Type;
+            _context.Entry(existingQuestionType).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(existingQuestionType);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency exception if needed
+                return StatusCode(500); // Internal Server Error
+            }
+        }
 
     }
 }
