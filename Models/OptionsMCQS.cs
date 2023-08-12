@@ -2,16 +2,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace dpdPublicQuizAPI.Models
 {
-    public class Answers
+    public class OptionsMCQS
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [ForeignKey("Questions")]
         public Guid QuestionID { get; set; }
-        [ForeignKey("Options")]
-        public Guid OptionID { get; set; }
-        public string OpenEndedAnswerText { get; set; }
+        public string OptionText { get; set; }
         public bool isCorrect { get; set; }
     }
 }
