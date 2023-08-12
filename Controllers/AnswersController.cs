@@ -3,10 +3,11 @@ using dpdPublicQuizAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
+
 namespace dpdPublicQuizAPI.Controllers
 {
     [ApiController]
-    [Route("add/answer")]
     public class AnswersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -16,16 +17,27 @@ namespace dpdPublicQuizAPI.Controllers
             _context = context;
             _configuration = configuration;
         }
+
+        //In case of MCQs only
         [HttpPost]
-        public async Task<IActionResult> AddAnswers(Answers request)
+        [Route("add/answer/questionID")]
+        public async Task<IActionResult> AddAnswersOptions(Answers request)
         {
-            if (request.AnswerText == null || request.AnswerText == "")
-            {
-                return BadRequest("Answer Cannot be Empty");
-            }
-            _context.Add(request);
+            //teacher can add answer options for an MCQ
+            //if (request.AnswerText == null || request.AnswerText == "")
+            //{
+            //    return BadRequest("Answer Cannot be Empty");
+            //}
+            _context.Answers.Add(request);
             await _context.SaveChangesAsync();
             return Ok("Answer Added Successfully");
+        }
+        [HttpGet]
+        [Route("getAllAnswers/questionId")]
+        public async Task<IActionResult> GetAllAnswersOptions(Questions request)
+        {
+            var allAnswers = _context.Answers.Where(q => q.QuestionID == request.Id);
+            return Ok(allAnswers);
         }
     }
 }
