@@ -42,24 +42,23 @@ namespace dpdPublicQuizAPI.Controllers
             return Ok(questionTypes);
         }
         [HttpGet]
-        [Route("getQuestionType/{questionId}")]
-        public async Task<IActionResult> GetQuestionTypeDetail (Guid questionId)
+        [Route("getQuestionType/{questionTypeId}")]
+        public async Task<IActionResult> GetQuestionTypeDetail (Guid questionTypeId)
         {
-            var getQuestionDetail = await _context.QuestionType.FindAsync(questionId);
+            var getQuestionDetail = await _context.QuestionType.FindAsync(questionTypeId);
             if (getQuestionDetail == null)
             {
                 return NotFound(); // Return a 404 response if the question is not found
             }
             return Ok(getQuestionDetail);
-            Console.Read();
         }
 
         [HttpPut]
-        [Route("updateQuestionType/{questionId}")]
+        [Route("updateQuestionType/{questionTypeId}")]
         public async Task<IActionResult> UpdateQuestionTypeDetail (QuestionsType updatedQuestionType)
         {
-            var questionId = updatedQuestionType.Id;
-            var existingQuestionType = await _context.QuestionType.FindAsync(questionId);
+            var questionTypeId = updatedQuestionType.Id;
+            var existingQuestionType = await _context.QuestionType.FindAsync(questionTypeId);
             if(existingQuestionType == null)
             {
                 return NotFound();
@@ -79,10 +78,10 @@ namespace dpdPublicQuizAPI.Controllers
             }
         }
         [HttpDelete]
-        [Route("deleteQuestionType{questionId}")]
-        public async Task<IActionResult> DeleteQuestionType (Guid questionId)
+        [Route("deleteQuestionType{questionTypeId}")]
+        public async Task<IActionResult> DeleteQuestionType (Guid questionTypeId)
         {
-            var existingQuestionType = await _context.QuestionType.FindAsync(questionId);
+            var existingQuestionType = await _context.QuestionType.FindAsync(questionTypeId);
             if (existingQuestionType == null)
             {
                 return NotFound("No such type exists");
