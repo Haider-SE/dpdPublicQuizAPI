@@ -78,6 +78,22 @@ namespace dpdPublicQuizAPI.Controllers
                 return StatusCode(500); // Internal Server Error
             }
         }
+        [HttpDelete]
+        [Route("deleteQuestionType{questionId}")]
+        public async Task<IActionResult> DeleteQuestionType (Guid questionId)
+        {
+            var existingQuestionType = await _context.QuestionType.FindAsync(questionId);
+            if (existingQuestionType == null)
+            {
+                return NotFound("No such type exists");
+            }
+
+            _context.QuestionType.Remove(existingQuestionType);
+            await _context.SaveChangesAsync();
+
+            return Ok("Question type deleted successfully");
+        }
+
 
     }
 }
