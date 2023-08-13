@@ -49,7 +49,20 @@ namespace dpdPublicQuizAPI.Controllers
             _context.Entry(existingTeacher).State = EntityState.Modified;
             _context.SaveChangesAsync();
             return Ok(existingTeacher);
-            
+        }
+        [HttpDelete]
+        [Route("deleteTeacher/{teacherID}")]
+        public async Task<IActionResult> DeleteTeacher(Guid id)
+        {
+            var existingTeacher = await _context.Teachers.FindAsync(id);
+            if(existingTeacher == null)
+            {
+                return NotFound("No Such Teacher Exist");
+            }
+            _context.Teachers.Remove(existingTeacher);
+            await _context.SaveChangesAsync();
+            return Ok("Teacher Deleted Successfully");
+
         }
     }
 }
