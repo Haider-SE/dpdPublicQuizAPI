@@ -6,6 +6,8 @@ namespace dpdPublicQuizAPI.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("Teacher")]
+        public Guid TeacherId { get; set; }
         public Guid Id { get; set; }
         public string ClassName { get; set; }
     }

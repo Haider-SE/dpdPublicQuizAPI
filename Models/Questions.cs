@@ -10,6 +10,8 @@ namespace dpdPublicQuizAPI.Models
         [ForeignKey("QuestionType")]
         public Guid QuestionTypeID { get; set; }
         public string QuestionText { get; set; }
+        [ForeignKey("Quiz")]
+        public string QuizID { get; set; }
         public bool isActive { get; set; }
     }
 }
