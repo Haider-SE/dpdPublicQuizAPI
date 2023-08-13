@@ -28,6 +28,28 @@ namespace dpdPublicQuizAPI.Controllers
             var addTeacher = await _context.Teachers.AddAsync(request);
             return Ok(addTeacher);
         }
-
+        [HttpGet]
+        [Route("getAllTeachers")]
+        public async Task<IActionResult> GetAllTeachers()
+        {
+            var allTeachers = await _context.Teachers.ToListAsync();
+            return Ok(allTeachers);
+        }
+        [HttpPut]
+        [Route("upadteTeacher/{teaccherID}")]
+        public async Task<IActionResult> UpdateTeacher(Teachers request)
+        {
+            var existingTeacher = await _context.Teachers.FindAsync(request.Id);
+            if(existingTeacher == null)
+            {
+                return NotFound("Teacher Details Not Found");
+            }
+            existingTeacher.FirstName = request.FirstName;
+            existingTeacher.LastName = request.LastName;
+            _context.Entry(existingTeacher).State = EntityState.Modified;
+            _context.SaveChangesAsync();
+            return Ok(existingTeacher);
+            
+        }
     }
 }
