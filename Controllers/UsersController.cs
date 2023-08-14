@@ -35,6 +35,36 @@ namespace dpdPublicQuizAPI.Controllers
             var allUsers = await _context.Users.ToListAsync();
             return Ok(allUsers);
         }
+        [HttpPut]
+        [Route("updateUser/{userID}")]
+        public async Task<IActionResult> UpdateUser (Users request)
+        {
+            var existingUser = await _context.Users.FindAsync(request.Id);
+            if(existingUser == null)
+            {
+                return NotFound("User Details not found");
+            }
+            existingUser.FirstName = request.FirstName;
+            existingUser.LastName = request.LastName;
+            _context.Entry(existingUser).State = EntityState.Modified;
+            _context.SaveChangesAsync();
+            return Ok("User Details Updated Successfully");
+        }
+        [HttpDelete]
+        [Route("deleteUser/{userID}")]
+        public async Task<IActionResult> DeleteUser (Guid id)
+        {
+            var existingUser = _context.Users.Find(id);
+            if(existingUser == null)
+            {
+                return NotFound("User Not Found");
+            }
+            _context.Users.Remove(existingUser);
+            await _context.SaveChangesAsync();
+            return Ok("User Deleted Successfully");
+
+        }
+
 
     }
 }
