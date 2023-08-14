@@ -23,7 +23,7 @@ namespace dpdPublicQuizAPI.Controllers
             {
                 return BadRequest("Question Cannot be empty");
             }
-            _context.Add(request);
+            _context.Questions.Add(request);
             await _context.SaveChangesAsync();
             return Ok("Question Added Succesfully");
         }
