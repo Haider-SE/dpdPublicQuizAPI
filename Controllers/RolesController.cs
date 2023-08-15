@@ -26,6 +26,13 @@ namespace dpdPublicQuizAPI.Controllers
             _context.Roles.Add(request);
             await _context.SaveChangesAsync();
             return Ok("Role Have been added");
-        } 
+        }
+        [HttpGet]
+        [Route("getAllRoles")]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            var allRoles = await _context.Roles.ToListAsync();
+            return Ok(allRoles);
+        }
     }
 }
