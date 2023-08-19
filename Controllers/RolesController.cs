@@ -52,7 +52,23 @@ namespace dpdPublicQuizAPI.Controllers
             _context.Entry(existingRole).State = EntityState.Modified;
             _context.SaveChangesAsync();
             return Ok("Roles Detail Updated Successfully");
-
+        }
+        [HttpDelete]
+        [Route("deleteRole/{roleId}")]
+        public async Task<IActionResult> DeleteRole(Guid id)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            var existingRole = await _context.Roles.FindAsync(id);
+            if (existingRole == null)
+            {
+                return NotFound("Role Not Found");
+            }
+            _context.Roles.Remove(existingRole);
+            await _context.SaveChangesAsync();
+            return Ok("Role deleted successfully");
         }
     }
 }
