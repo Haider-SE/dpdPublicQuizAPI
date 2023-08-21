@@ -6,7 +6,6 @@ using Microsoft.Data.SqlClient;
 namespace dpdPublicQuizAPI.Controllers
 {
     [ApiController]
-    [Route("teacher-Signup")]
     public class SignupController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -15,6 +14,7 @@ namespace dpdPublicQuizAPI.Controllers
             _context = context;
         }
         [HttpPost]
+        [Route("teacher-Signup")]
         public async Task<IActionResult> TeacherSignup(Users model)
         {
             // TODO: Implement signup logic using model data
