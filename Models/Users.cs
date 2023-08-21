@@ -7,6 +7,7 @@ namespace dpdPublicQuizAPI.Models
         public Guid Id { get; set; }
         [ForeignKey("Roles")]
         public Guid RoleId{ get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
