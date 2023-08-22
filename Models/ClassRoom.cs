@@ -11,5 +11,7 @@ namespace dpdPublicQuizAPI.Models
         [ForeignKey("Users")]
         public Guid TeacherId { get; set; }
         public string ClassName { get; set; }
+        public ICollection<Users> Students { get; set; }
+
     }
 }

@@ -20,6 +20,7 @@ namespace dpdPublicQuizAPI.Controllers
         [Route("addUser")]
         public async Task<IActionResult> AddUser(Users request)
         {
+            //only For Admin
             if(request == null)
             {
                 return BadRequest("Data Cannot be null");
@@ -47,7 +48,7 @@ namespace dpdPublicQuizAPI.Controllers
             existingUser.FirstName = request.FirstName;
             existingUser.LastName = request.LastName;
             _context.Entry(existingUser).State = EntityState.Modified;
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return Ok("User Details Updated Successfully");
         }
         [HttpDelete]
@@ -62,9 +63,6 @@ namespace dpdPublicQuizAPI.Controllers
             _context.Users.Remove(existingUser);
             await _context.SaveChangesAsync();
             return Ok("User Deleted Successfully");
-
         }
-
-
     }
 }
