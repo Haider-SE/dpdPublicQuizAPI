@@ -2,15 +2,15 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace dpdPublicQuizAPI.Models
 {
-    public class Teachers
+    public class Users
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        [ForeignKey("ClassRoom")]
-        public Guid ClassId { get; set; }
+        [ForeignKey("Roles")]
+        public Guid RoleId{ get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

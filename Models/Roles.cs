@@ -2,14 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace dpdPublicQuizAPI.Models
 {
-    public class ClassRoom
+    public class Roles
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
-        public Guid Id { get; set; }
-        [ForeignKey("Users")]
-        public Guid TeacherId { get; set; }
-        public string ClassName { get; set; }
+        public Guid RoleID { get; set; }
+        public string RoleName { get; set; }
     }
 }
