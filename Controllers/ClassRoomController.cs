@@ -34,7 +34,7 @@ namespace dpdPublicQuizAPI.Controllers
             var allClassRooms = await _context.ClassRoom.ToListAsync();
             return Ok(allClassRooms);
         }
-        [HttpPut]
+        [HttpGet]
         [Route("getClassRoom/{classRoomID}")]
         public async Task<IActionResult> GetClassRoom (Guid classRoomID)
         {
@@ -44,6 +44,40 @@ namespace dpdPublicQuizAPI.Controllers
                 return NotFound();
             }
             return Ok(ifExist);
+        }
+        [HttpPut]
+        [Route("upadteClassRoom/{classRoomID}")]
+        public async Task<IActionResult> UpdateQuestion(ClassRoom classRoom)
+        {
+            var ifExist = await _context.ClassRoom.FindAsync(classRoom);
+            if (ifExist == null)
+            {
+                return NotFound("Question Does not Exist");
+            }
+            ifExist.ClassName = classRoom.ClassName;
+            _context.Entry(ifExist).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(ifExist);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpDelete]
+        [Route("deleteClassRoom/{classRoomID}")]
+        public async Task<IActionResult> DeleteQuestion(Guid questionId)
+        {
+            var existingQuestion = await _context.Questions.FindAsync(questionId);
+            if (existingQuestion == null)
+            {
+                return NotFound("No such Question Exists");
+            }
+            _context.Questions.Remove(existingQuestion);
+            await _context.SaveChangesAsync();
+            return Ok("Question Deleted Successfully");
         }
     }
 }
