@@ -12,6 +12,7 @@ namespace dpdPublicQuizAPI.Models
         public Guid TeacherId { get; set; }
         public string ClassName { get; set; }
         public ICollection<Users> Students { get; set; }
+        public ICollection<Quiz> Quizzes { get; set; }
 
     }
 }
