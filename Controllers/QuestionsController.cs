@@ -16,7 +16,7 @@ namespace dpdPublicQuizAPI.Controllers
             _configuration = configuration;
         }
         [HttpPost]
-        [Route("add/question")]
+        [Route("addquestion")]
         public async Task<IActionResult> AddQuestions(Questions request)
         {
             if(request.QuestionText == null || request.QuestionText == "")
