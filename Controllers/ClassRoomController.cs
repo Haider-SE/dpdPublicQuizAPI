@@ -47,7 +47,7 @@ namespace dpdPublicQuizAPI.Controllers
         }
         [HttpPut]
         [Route("upadteClassRoom/{classRoomID}")]
-        public async Task<IActionResult> UpdateQuestion(ClassRoom classRoom)
+        public async Task<IActionResult> UpdateClassRoom(ClassRoom classRoom)
         {
             var ifExist = await _context.ClassRoom.FindAsync(classRoom);
             if (ifExist == null)
@@ -68,14 +68,14 @@ namespace dpdPublicQuizAPI.Controllers
         }
         [HttpDelete]
         [Route("deleteClassRoom/{classRoomID}")]
-        public async Task<IActionResult> DeleteQuestion(Guid questionId)
+        public async Task<IActionResult> DeleteClassRoom(Guid questionId)
         {
-            var existingQuestion = await _context.Questions.FindAsync(questionId);
-            if (existingQuestion == null)
+            var ifExist = await _context.ClassRoom.FindAsync(questionId);
+            if (ifExist == null)
             {
                 return NotFound("No such Question Exists");
             }
-            _context.Questions.Remove(existingQuestion);
+            _context.ClassRoom.Remove(ifExist);
             await _context.SaveChangesAsync();
             return Ok("Question Deleted Successfully");
         }
