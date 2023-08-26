@@ -1,11 +1,13 @@
 ﻿using dpdPublicQuizAPI.Data.ContextConfiguration;
 using dpdPublicQuizAPI.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 namespace dpdPublicQuizAPI.Controllers
 {
     [ApiController]
+    [EnableCors("_myAllowAnyOrigin")]
     public class UsersController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -25,6 +27,7 @@ namespace dpdPublicQuizAPI.Controllers
             {
                 return BadRequest("Data Cannot be null");
             }
+            request.Password = "123456";
             _context.Users.Add(request);
             await _context.SaveChangesAsync();
             return Ok("User Have been added");
