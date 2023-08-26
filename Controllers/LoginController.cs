@@ -27,7 +27,7 @@ namespace dpdPublicQuizAPI.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             // Find the user with the provided username
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.UserName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
             {
@@ -47,7 +47,7 @@ namespace dpdPublicQuizAPI.Controllers
             var response = new LoginResponse
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Token = token
@@ -87,14 +87,14 @@ namespace dpdPublicQuizAPI.Controllers
 
     public class LoginRequest
     {
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 
     public class LoginResponse
     {
         public Guid Id { get; set; }
-        public string UserName { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
